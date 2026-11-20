@@ -45,9 +45,6 @@ Classification Result
 Telegram Notification
   │
   ▼
-User Approval
-  │
-  ▼
 Move Email to Folder
 ```
 
@@ -62,14 +59,14 @@ Move Email to Folder
 
 ## Installation
 
-### Clone the repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/gmail-phishing-detector.git
 cd gmail-phishing-detector
 ```
 
-### Create a virtual environment
+### 2. Create a virtual environment
 
 ```bash
 python -m venv venv
@@ -89,7 +86,7 @@ Linux / Raspberry Pi:
 source venv/bin/activate
 ```
 
-### Install dependencies
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -125,11 +122,9 @@ gmail-phishing-detector/
 ├── .env
 │
 ├── gmail/
-├── classification/
 ├── telegram/
 ├── config/
-├── logs/
-└── credentials/
+├── guides/
 ```
 
 ## Example Output

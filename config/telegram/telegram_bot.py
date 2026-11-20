@@ -1,6 +1,5 @@
 import requests # Used to interact with the Ollama REST API
 import json # Used to format JSON output
-from get_gmail import get_gmail_service, get_message_text, get_unread_messages, mark_as_phishing, get_or_create_label, mark_as_read
 from dotenv import load_dotenv
 import os
 
@@ -74,4 +73,3 @@ def send_telegram_message(formatted_data, service, phishing_label_id, msg_id):
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
     url = f"https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&text={formatted_data}"
     print(requests.get(url).json()) # this sends the message
-    mark_as_phishing(service, msg_id, phishing_label_id)
