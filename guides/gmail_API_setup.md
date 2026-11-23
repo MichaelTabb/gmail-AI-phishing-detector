@@ -117,15 +117,13 @@ Download:
 
 credentials.json
 
-Place inside your project folder.
+Place inside the config/credentials/ folder.
 
 Example:
 
 ```text
-phishing-filter/
+gmail-AI-phishing-detector/condig/credentials
 ├── credentials.json
-├── main.py
-├── venv/
 ```
 
 ---
@@ -187,7 +185,7 @@ Approve permissions.
 Google will generate:
 
 ```text
-credentials.json
+token.json
 ```
 
-In the project directory, create a folder called "credentials" and move the "credentials.json" file into it.
+Move the token.json file in the same directory of the credentials.json folder

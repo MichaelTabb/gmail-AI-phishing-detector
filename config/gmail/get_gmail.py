@@ -15,9 +15,9 @@ def get_gmail_service():
     try:
         creds = Credentials.from_authorized_user_file("token.json", SCOPES)
     except:
-        flow = InstalledAppFlow.from_client_secrets_file("credentials/credentials.json", SCOPES)
+        flow = InstalledAppFlow.from_client_secrets_file("config/credentials/credentials.json", SCOPES)
         creds = flow.run_local_server(port=0, access_type = 'offline', prompt = 'consent')
-        with open("token.json", "w") as token:
+        with open("config/credentials/token.json", "w") as token:
             token.write(creds.to_json())
     return build("gmail", "v1", credentials=creds)
 

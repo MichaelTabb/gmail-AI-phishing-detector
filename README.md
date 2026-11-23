@@ -2,6 +2,8 @@
 
 An AI-powered phishing detection system that monitors unread Gmail messages, analyzes them using a local Large Language Model (LLM), and sends suspicious emails to Telegram for human review before taking action.
 
+For user guides for files, they are located inside of the guides/ folder
+
 ## Features
 
 - Retrieves unread emails from Gmail
@@ -121,8 +123,6 @@ gmail-phishing-detector/
 ├── .gitignore
 ├── .env
 │
-├── gmail/
-├── telegram/
 ├── config/
 ├── guides/
 ```
