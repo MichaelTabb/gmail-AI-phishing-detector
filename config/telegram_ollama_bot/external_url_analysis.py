@@ -4,6 +4,61 @@ import requests
 
 load_dotenv()
 
+def Google_scan(url):
+    googleAPI = os.getenv("GOOGLE_SAFE_BROWSING_API_KEY")
+
+    endpoint = (
+        f"https://safebrowsing.googleapis.com/v4/threatMatches:find"
+        f"?key={googleAPI}"
+    )
+
+    payload = {
+        "client": {
+            "clientId": "gmail-ai-phishing-detector",
+            "clientVersion": "1.0"
+        },
+        "threatInfo": {
+            "threatTypes": [
+                "MALWARE",
+                "SOCIAL_ENGINEERING",
+                "UNWANTED_SOFTWARE"
+            ],
+            "platformTypes": [
+                "ANY_PLATFORM"
+            ],
+            "threatEntryTypes": [
+                "URL"
+            ],
+            "threatEntries": [
+                {
+                    "url": url
+                }
+            ]
+        }
+    }
+
+    response = requests.post(
+        endpoint,
+        json=payload
+    )
+
+    data = response.json()
+
+    # Return if the URL is safe
+    if "matches" not in data:
+        return {
+            "url": url,
+            "status": "SAFE",
+            "threat_type": None
+        }
+
+    # Return if the URL is Malicious
+    return {
+        "url": url,
+        "status": "MALICIOUS",
+        "threat_type": data["matches"][0]["threatType"]
+    }
+
 def VirusTotal_scan(url):
     headers = {
         "x-apikey": os.getenv("VIRUSTOTAL_API_KEY")
