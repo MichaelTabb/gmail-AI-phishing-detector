@@ -1,6 +1,8 @@
+# Google libraries to allow for gmail API to work
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from telegram_ollama_bot.external_url_analysis import Google_scan
 import base64
 import re
 
@@ -61,6 +63,10 @@ def get_message_text(service, msg_id):
     else:
         if msg["payload"]["mimeType"] == "text/plain":
             body = base64.urlsafe_b64decode(msg["payload"]["data"]).decode("utf-8")
+
+    url_list = get_urls(body)
+
+    cleaned_email = clean_email(body)
     
     email = {
         "From": sender,
@@ -68,12 +74,11 @@ def get_message_text(service, msg_id):
         "Date": date,
         "Message ID": message_id,
         "Subject": subject,
-        "Body": body
+        "Body": cleaned_email,
+        "URLs": url_list
     }
     
-    cleaned_email = clean_email(email['Body'])
-    
-    return cleaned_email
+    return email
 
 def clean_email(email):
     clean = re.compile('<.*?>')
@@ -82,6 +87,25 @@ def clean_email(email):
     cleanEmail = cleanEmail.replace("\r", "")
     
     return cleanEmail
+
+def get_urls(email_body):
+    # Pattern used to get URLs from plaintext or from HTML tags
+    pattern = (
+        r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'
+        r'(?:/[^\s<>"\']*)?'
+    )
+
+    # Find all of the URLs in the body of the email
+    urls = re.findall(pattern, email_body)
+    # Used to hold all of the URLs and their results
+    url_results = []
+
+    # Add every URL and its scan result to the list
+    for url in urls:
+        url_scan = Google_scan(url)
+        url_results.append(url_scan)
+
+    return url_results
 
 # Get / create the phishing label
 def get_or_create_label(service, label_name):

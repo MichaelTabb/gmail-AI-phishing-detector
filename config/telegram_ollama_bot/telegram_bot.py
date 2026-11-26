@@ -30,6 +30,8 @@ def get_user_prompt(email):
 
     3. If some information is missing (e.g., no headers or no URLs), mention that in your reasoning but still make a determination.
 
+    4. All of the links within the email are scanned externally. Use these scan results to help your reasoning.
+
     Here is the email to analyse:
     {email}
     """

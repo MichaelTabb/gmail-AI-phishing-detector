@@ -64,7 +64,7 @@ Move Email to Folder
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/gmail-phishing-detector.git
+git clone https://github.com/MichaelTabb/gmail-AI-phishing-detector.git
 cd gmail-phishing-detector
 ```
 
@@ -82,7 +82,7 @@ Windows:
 venv\Scripts\activate
 ```
 
-Linux / Raspberry Pi:
+Linux:
 
 ```bash
 source venv/bin/activate
@@ -99,9 +99,11 @@ pip install -r requirements.txt
 Create a `.env` file in the project root:
 
 ```env
-TELEGRAM_BOT_TOKEN = 
-TELEGRAM_CHAT_ID = 
-OLLAMA_URL = 
+TELEGRAM_BOT_TOKEN = ""
+TELEGRAM_CHAT_ID = ""
+OLLAMA_URL = ""
+VIRUSTOTAL_API_KEY = ""
+GOOGLE_SAFE_BROWSING_API_KEY = ""
 ```
 
 Never upload the `.env` file to GitHub.
