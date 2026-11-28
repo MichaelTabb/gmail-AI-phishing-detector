@@ -59,30 +59,35 @@ def Google_scan(url):
         "threat_type": data["matches"][0]["threatType"]
     }
 
-def VirusTotal_scan(url):
-    headers = {
-        "x-apikey": os.getenv("VIRUSTOTAL_API_KEY")
-    }
+def VirusTotal_scan(urls):
+    data = {}
 
-    response = requests.post(
-        "https://www.virustotal.com/api/v3/urls",
-        headers=headers,
-        data={
-            "url": url
+    for url in urls:
+        headers = {
+            "x-apikey": os.getenv("VIRUSTOTAL_API_KEY")
         }
-    )
 
-    analysis_id = response.json()["data"]["id"]
+        response = requests.post(
+            "https://www.virustotal.com/api/v3/urls",
+            headers=headers,
+            data={
+                "url": url
+            }
+        )
 
-    response = requests.get(
-        f"https://www.virustotal.com/api/v3/analyses/{analysis_id}",
-        headers=headers
-    )
+        analysis_id = response.json()["data"]["id"]
 
-    stats = response.json()["data"]["attributes"]["stats"]
+        response = requests.get(
+            f"https://www.virustotal.com/api/v3/analyses/{analysis_id}",
+            headers=headers
+        )
 
-    malicious = stats["malicious"]
-    suspicious = stats["suspicious"]
-    harmless = stats["harmless"]
+        stats = response.json()["data"]["attributes"]["stats"]
 
-    return malicious, suspicious, harmless
+        malicious = stats["malicious"]
+        suspicious = stats["suspicious"]
+        harmless = stats["harmless"]
+
+        data[url] = [f"Malicious: {malicious}, Suspicious: {suspicious}, Harmless: {harmless}"]
+
+    return data

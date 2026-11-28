@@ -2,7 +2,7 @@
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-from telegram_ollama_bot.external_url_analysis import Google_scan
+from config.telegram_ollama_bot.external_url_analysis import Google_scan, VirusTotal_scan
 import base64
 import re
 
@@ -15,7 +15,7 @@ def get_gmail_service():
     
     # First time loging to create token.json
     try:
-        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+        creds = Credentials.from_authorized_user_file("config/credentials/token.json", SCOPES)
     except:
         flow = InstalledAppFlow.from_client_secrets_file("config/credentials/credentials.json", SCOPES)
         creds = flow.run_local_server(port=0, access_type = 'offline', prompt = 'consent')
@@ -66,6 +66,14 @@ def get_message_text(service, msg_id):
 
     url_list = get_urls(body)
 
+    # Get the malicious URLs from the URL list and scan them via VirusTotal
+    malicious_urls = []
+    for result in url_list:
+        if result["status"] == "MALICIOUS":
+            malicious_urls.append(result["url"])
+
+    malicious_url_results = VirusTotal_scan(malicious_urls)
+
     cleaned_email = clean_email(body)
     
     email = {
@@ -75,7 +83,8 @@ def get_message_text(service, msg_id):
         "Message ID": message_id,
         "Subject": subject,
         "Body": cleaned_email,
-        "URLs": url_list
+        "Google Safe Search Results": url_list,
+        "VirusTotal Results": malicious_url_results
     }
     
     return email

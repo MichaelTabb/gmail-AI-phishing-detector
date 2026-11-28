@@ -5,7 +5,7 @@ import os
 
 load_dotenv()
 
-# Get the user prompt for the AI model
+# Get the main user prompt for the AI model
 def get_user_prompt(email):
     userPrompt = f"""
     You are a cybersecurity expert who specialises in phishing detection within emails.
@@ -29,8 +29,6 @@ def get_user_prompt(email):
     - unusual requests
 
     3. If some information is missing (e.g., no headers or no URLs), mention that in your reasoning but still make a determination.
-
-    4. All of the links within the email are scanned externally. Use these scan results to help your reasoning.
 
     Here is the email to analyse:
     {email}
@@ -61,12 +59,16 @@ def get_bot_prompt(userPrompt):
 # Get the bot response from the AI model
 def get_bot_response(botPrompt):
     ollama_url = os.getenv("OLLAMA_URL")
-    response = requests.post(ollama_url, json=botPrompt)
+    response = requests.post(
+        ollama_url,
+        json=botPrompt
+    )
     outer = response.json()
     inner = outer["response"]
     clean_data = json.loads(inner)
     formatted_data = "From: " + clean_data["from"] + "\nSubject: " + clean_data["subject"] + "\n\nDecision: " + clean_data["decision"] + "\n\nReasoning: " + clean_data["reasoning"]
     print(formatted_data)
+
     return clean_data, formatted_data
 
 # Send a Telegram message if the email is classified as a phishing email
