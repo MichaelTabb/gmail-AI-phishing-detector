@@ -5,6 +5,7 @@ from config.telegram_ollama_bot.telegram_bot import (
     get_user_prompt, get_bot_prompt, get_bot_response,
     send_telegram_message)
 
+# Used to get gmail service, messages and labels
 def get_gmail_data():
     service = get_gmail_service()
     unread_messages = get_unread_messages(service)
@@ -20,6 +21,7 @@ if not gmail_data[1]: # If there are no unread emails
 else:
     # Loop through each email
     for msg in gmail_data[1]:
+        # Gather data and send to LLM
         email = get_message_text(gmail_data[0], msg["id"])
         userPrompt = get_user_prompt(email)
         botPrompt = get_bot_prompt(userPrompt)

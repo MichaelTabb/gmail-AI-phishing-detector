@@ -6,12 +6,13 @@ For user guides for files, they are located inside of the guides/ folder
 
 ## Features
 
-- Retrieves unread emails from Gmail
-- Uses a local LLM (Ollama) to classify emails
-- Sends analysis results to Telegram is classified as phishing
-- Automatically files confirmed phishing emails
-- Runs locally for enhanced privacy
-- Fully configurable through environment variables
+* Retrieves unread emails from Gmail
+* Uses a local LLM (Ollama) to classify emails
+* Uses external scanning to improve results
+* Sends analysis results to Telegram is classified as phishing
+* Automatically files confirmed phishing emails
+* Runs locally for enhanced privacy
+* Fully configurable through environment variables
 
 ## How It Works
 
@@ -147,12 +148,11 @@ and requests credential verification.
 
 ## Future Improvements
 
-- Human-in-the-loop approving
-- Attachment scanning
-- URL reputation checking
-- Email sender reputation analysis
-- Statistics and reporting
-- Machine learning feedback loop
+* Human-in-the-loop approving
+* Attachment scanning
+* Email sender reputation analysis
+* Statistics and reporting
+* Machine learning feedback loop
 
 ## License
 

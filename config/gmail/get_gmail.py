@@ -75,7 +75,8 @@ def get_message_text(service, msg_id):
     malicious_url_results = VirusTotal_scan(malicious_urls)
 
     cleaned_email = clean_email(body)
-    
+
+    # Combine the email aspects together
     email = {
         "From": sender,
         "To": to,
@@ -97,6 +98,7 @@ def clean_email(email):
     
     return cleanEmail
 
+# Search the email body for URLs
 def get_urls(email_body):
     # Pattern used to get URLs from plaintext or from HTML tags
     pattern = (

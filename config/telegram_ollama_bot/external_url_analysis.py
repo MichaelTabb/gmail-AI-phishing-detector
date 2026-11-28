@@ -4,6 +4,7 @@ import requests
 
 load_dotenv()
 
+# Send the URL to Google Safe Browsing for scanning
 def Google_scan(url):
     googleAPI = os.getenv("GOOGLE_SAFE_BROWSING_API_KEY")
 
@@ -59,6 +60,7 @@ def Google_scan(url):
         "threat_type": data["matches"][0]["threatType"]
     }
 
+# Send the URL to VirusTotal for scanning
 def VirusTotal_scan(urls):
     data = {}
 
