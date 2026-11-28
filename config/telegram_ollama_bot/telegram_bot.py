@@ -5,7 +5,7 @@ import os
 
 load_dotenv()
 
-# Get the user prompt for the AI model
+# Get the main user prompt for the AI model
 def get_user_prompt(email):
     userPrompt = f"""
     You are a cybersecurity expert who specialises in phishing detection within emails.
@@ -59,12 +59,16 @@ def get_bot_prompt(userPrompt):
 # Get the bot response from the AI model
 def get_bot_response(botPrompt):
     ollama_url = os.getenv("OLLAMA_URL")
-    response = requests.post(ollama_url, json=botPrompt)
+    response = requests.post(
+        ollama_url,
+        json=botPrompt
+    )
     outer = response.json()
     inner = outer["response"]
     clean_data = json.loads(inner)
     formatted_data = "From: " + clean_data["from"] + "\nSubject: " + clean_data["subject"] + "\n\nDecision: " + clean_data["decision"] + "\n\nReasoning: " + clean_data["reasoning"]
     print(formatted_data)
+
     return clean_data, formatted_data
 
 # Send a Telegram message if the email is classified as a phishing email
